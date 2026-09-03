@@ -1,0 +1,17 @@
+body{
+    display: flex;
+    justify-content: center;
+
+    padding-top: 80px;
+
+    font-family: Arial, sans-serif;
+    background: #f3f4f6;
+}
+
+.container{
+    width: 500px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}

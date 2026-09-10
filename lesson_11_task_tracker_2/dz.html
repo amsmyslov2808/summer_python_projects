@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+            min-height: 100vh;
+
+            padding-top: 80px;
+        }
+
+        .container {
+            width: 350px;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+
+            text-align: center;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            font-size: 16px;
+
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .login-button {
+            width: 100%;
+
+            padding: 12px;
+
+            background: #2563eb;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #1d4ed8;
+        }
+
+        .help-text {
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #555;
+
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Вход</h1>
+
+        <div class="field">
+            <label>Email</label>
+
+            <input
+                type="text"
+                placeholder="Введите email"
+            >
+        </div>
+
+        <div class="field">
+            <label>Пароль</label>
+
+            <input
+                type="password"
+                placeholder="Введите пароль"
+            >
+        </div>
+
+        <button class="login-button">
+            Войти
+        </button>
+
+        <div class="help-text">
+            Нет аккаунта?
+        </div>
+
+    </div>
+
+</body>
+
+</html>

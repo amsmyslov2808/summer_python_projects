@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Tracker</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .container {
+            width: 500px;
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .task-form {
+            display: flex;
+            gap: 10px;
+
+            margin-bottom: 25px;
+        }
+
+        .task-input {
+            flex: 1;
+
+            padding: 12px;
+
+            font-size: 16px;
+
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .add-button {
+            padding: 12px 18px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        .add-button:hover {
+            background: #1d4ed8;
+        }
+
+        .task-list {
+            padding: 0;
+            margin: 0;
+
+            list-style: none;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 12px;
+
+            margin-bottom: 10px;
+
+            background: #f9fafb;
+
+            border-radius: 8px;
+        }
+
+        .task-title {
+            flex: 1;
+        }
+
+        .task.completed .task-title {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .delete-button {
+            border: none;
+            background: #ef4444;
+            color: white;
+
+            padding: 7px 10px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background: #dc2626;
+        }
+
+        .statistics {
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Мои задачи</h1>
+
+    <div class="task-form">
+
+        <input
+                id="taskInput"
+                class="task-input"
+                type="text"
+                placeholder="Введите новую задачу"
+        >
+
+        <button
+                id="addButton"
+                class="add-button"
+        >
+            Добавить
+        </button>
+
+    </div>
+
+
+    <ul
+            id="taskList"
+            class="task-list"
+    >
+    </ul>
+
+
+    <div
+            id="statistics"
+            class="statistics"
+    >
+    </div>
+
+</div>
+
+
+<script>
+
+    // Список всех задач
+    let tasks = [
+        {
+            id: 1,
+            title: "Выучить HTML",
+            completed: true
+        },
+        {
+            id: 2,
+            title: "Выучить CSS",
+            completed: false
+        },
+        {
+            id: 3,
+            title: "Познакомиться с JavaScript",
+            completed: false
+        }
+    ];
+
+
+    // Получаем элементы страницы
+    const taskInput = document.querySelector("#taskInput");
+    const addButton = document.querySelector("#addButton");
+    const taskList = document.querySelector("#taskList");
+    const statistics = document.querySelector("#statistics");
+
+
+    // Рисуем задачи на странице
+    function renderTasks() {
+
+        taskList.innerHTML = "";
+
+
+        for (const task of tasks) {
+
+            const li = document.createElement("li");
+
+            li.className = "task";
+
+
+            if (task.completed) {
+                li.classList.add("completed");
+            }
+
+
+            // Checkbox
+            const checkbox = document.createElement("input");
+
+            checkbox.type = "checkbox";
+
+            checkbox.checked = task.completed;
+
+
+            // Название задачи
+            const title = document.createElement("span");
+
+            title.className = "task-title";
+
+            title.textContent = task.title;
+
+
+            // Кнопка удаления
+            const deleteButton = document.createElement("button");
+
+            deleteButton.className = "delete-button";
+
+            deleteButton.textContent = "Удалить";
+
+
+            // Выполнить / отменить выполнение задачи
+            checkbox.addEventListener("change", function () {
+
+                task.completed = checkbox.checked;
+
+                renderTasks();
+
+            });
+
+
+            // Удаление задачи
+            deleteButton.addEventListener("click", function () {
+
+                deleteTask(task.id);
+
+            });
+
+
+            li.appendChild(checkbox);
+
+            li.appendChild(title);
+
+            li.appendChild(deleteButton);
+
+
+            taskList.appendChild(li);
+
+        }
+
+
+        renderStatistics();
+
+    }
+
+
+    // Добавление новой задачи
+    function addTask() {
+
+        const title = taskInput.value.trim();
+
+
+        if (title === "") {
+            return;
+        }
+
+
+        const newTask = {
+
+            id: Date.now(),
+
+            title: title,
+
+            completed: false
+
+        };
+
+
+        tasks.push(newTask);
+
+
+        taskInput.value = "";
+
+
+        renderTasks();
+
+    }
+
+
+    // Удаление задачи
+    function deleteTask(taskId) {
+
+        tasks = tasks.filter(function (task) {
+
+            return task.id !== taskId;
+
+        });
+
+
+        renderTasks();
+
+    }
+
+
+    // Вывод статистики
+    function renderStatistics() {
+
+        let completedCount = 0;
+
+
+        for (const task of tasks) {
+
+            if (task.completed) {
+                completedCount++;
+            }
+
+        }
+
+
+        statistics.textContent =
+            "Выполнено: "
+            + completedCount
+            + " из "
+            + tasks.length;
+
+    }
+
+
+    // Нажатие на кнопку "Добавить"
+    addButton.addEventListener("click", function () {
+
+        addTask();
+
+    });
+
+
+    // Добавление задачи по Enter
+    taskInput.addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter") {
+
+            addTask();
+
+        }
+
+    });
+
+
+    // Первый запуск
+    renderTasks();
+
+</script>
+
+</body>
+</html>

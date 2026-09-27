@@ -1,3 +1,4 @@
+/* Базовое оформление страницы и горизонтальное центрирование приложения. */
 body{
     display: flex;
     justify-content: center;
@@ -8,6 +9,7 @@ body{
     background: #f3f4f6;
 }
 
+/* Основная карточка ограничивает ширину планировщика и отделяет его от фона. */
 .container{
     width: 500px;
     background-color: white;
@@ -16,11 +18,13 @@ body{
     padding: 30px;
 }
 
+/* Заголовок выравнивается независимо от содержимого остальных блоков. */
 h1 {
     margin-top: 0;
     text-align: center;
 }
 
+/* Поле ввода и кнопка располагаются в одной строке с равномерным промежутком. */
 .task-form{
     display: flex;
 
@@ -29,6 +33,7 @@ h1 {
     margin-bottom: 25px;
 }
 
+/* flex: 1 отдаёт полю всё место, оставшееся после размещения кнопки. */
 .task-input{
     padding: 12px;
 
@@ -40,7 +45,7 @@ h1 {
     flex: 1;
 }
 
-
+/* Основная кнопка визуально выделяет действие добавления задачи. */
 .add-task-button{
     border: none;
     border-radius: 8px;
@@ -55,6 +60,7 @@ h1 {
     font-size: 16px;
 }
 
+/* Сбрасываем стандартные отступы и маркеры браузера у списка. */
 .task-list{
     padding: 0;
     margin: 0;
@@ -62,6 +68,7 @@ h1 {
     list-style: none;
 }
 
+/* Каждая задача — отдельная flex-строка: checkbox, текст и кнопка удаления. */
 .task{
     display: flex;
     align-items: center;
@@ -76,16 +83,18 @@ h1 {
     border-radius: 8px;
 }
 
-
+/* Текст занимает свободное место и прижимает кнопку удаления к правому краю. */
 .task-title{
      flex: 1;
 }
 
+/* Класс completed добавляется из JavaScript только выполненным задачам. */
 .completed .task-title {
     text-decoration: line-through;
     color: #888;
 }
 
+/* Контрастный цвет подчёркивает необратимое для текущего списка действие. */
 .delete-button {
     border: none;
     background: #ef4444;
@@ -98,7 +107,7 @@ h1 {
     cursor: pointer;
 }
 
-
+/* Итоговая статистика отделена от списка и расположена по центру карточки. */
 .stats{
     margin-top: 20px;
 

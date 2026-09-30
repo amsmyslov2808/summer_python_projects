@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планировщик задач</title>
+
+    <!-- Стили подключаются отдельно, чтобы разметка отвечала только за структуру страницы. -->
+    <link rel="stylesheet" href="style.css">
+
+    <!--
+        Атрибут defer откладывает выполнение скрипта до окончания разбора HTML.
+        Благодаря этому JavaScript может сразу обращаться к элементам страницы.
+    -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Мои задачи</h1>
+
+        <!-- Панель создания задачи: поле ввода и кнопка добавления. -->
+        <div class="task-form">
+            <input placeholder="Введите новую задачу" class="task-input" id="taskInput">
+            <button class="add-task-button" onclick="add_task_button_click()">Добавить</button>
+        </div>
+
+        <!--
+            JavaScript загружает задачи с FastAPI и заполняет список элементами <li>.
+        -->
+        <div>
+            <ul class="task-list" id="tasklist">
+            </ul>
+        </div>
+
+        <!-- Сюда выводится количество выполненных задач и их общее число. -->
+        <div class="stats" id="stats">
+        </div>
+    </div>
+</body>
+</html>

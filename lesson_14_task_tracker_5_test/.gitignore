@@ -1,0 +1,4 @@
+backend/tasks.db
+__pycache__/
+*.py[cod]
+.venv/

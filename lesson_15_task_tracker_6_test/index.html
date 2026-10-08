@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API — задачи</title>
+    <style>
+        body {
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 0 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        form, li {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            align-items: center;
+            padding: 10px;
+            background: #f1f1f1;
+        }
+
+        .title {
+            flex: 1;
+        }
+
+        .complete {
+            color: gray;
+            text-decoration: line-through;
+        }
+
+        #message {
+            min-height: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список задач</h1>
+
+    <form id="create-form">
+        <input id="new-title" type="text" placeholder="Новая задача" required>
+        <button type="submit">POST: добавить</button>
+    </form>
+
+    <button type="button" onclick="loadTasks()">GET: обновить список</button>
+    <p id="message"></p>
+    <ul id="task-list"></ul>
+
+    <script>
+        // Backend работает отдельно от Live Server, поэтому указываем полный адрес.
+        const API_URL = "http://127.0.0.1:8000/api/tasks";
+
+        // READ: получаем массив задач через GET.
+        async function loadTasks() {
+            const response = await fetch(API_URL);
+            const tasks = await response.json();
+
+            const list = document.getElementById("task-list");
+            list.innerHTML = "";
+
+            for (const task of tasks) {
+                const li = document.createElement("li");
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = task.is_complete;
+                checkbox.onchange = () => updateTask(task, checkbox.checked);
+
+                const title = document.createElement("span");
+                title.className = task.is_complete ? "title complete" : "title";
+                title.textContent = `${task.id}. ${task.title}`;
+
+                const editButton = document.createElement("button");
+                editButton.textContent = "PUT: изменить";
+                editButton.onclick = () => editTask(task);
+
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "DELETE";
+                deleteButton.onclick = () => deleteTask(task.id);
+
+                li.append(checkbox, title, editButton, deleteButton);
+                list.append(li);
+            }
+
+            showMessage(`GET: получено задач — ${tasks.length}`);
+        }
+
+        // CREATE: отправляем новую задачу через POST.
+        document.getElementById("create-form").onsubmit = async (event) => {
+            event.preventDefault();
+            const input = document.getElementById("new-title");
+
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({title: input.value})
+            });
+
+            if (!response.ok) {
+                return showError(response);
+            }
+
+            input.value = "";
+            await loadTasks();
+        };
+
+        // UPDATE: отправляем все изменяемые поля задачи через PUT.
+        async function updateTask(task, isComplete, newTitle = task.title) {
+            const response = await fetch(`${API_URL}/${task.id}`, {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    title: newTitle,
+                    is_complete: isComplete
+                })
+            });
+
+            if (!response.ok) {
+                return showError(response);
+            }
+
+            await loadTasks();
+        }
+
+        function editTask(task) {
+            const newTitle = prompt("Новое название задачи", task.title);
+            if (newTitle !== null) {
+                updateTask(task, task.is_complete, newTitle);
+            }
+        }
+
+        // DELETE: удаляем задачу по id.
+        async function deleteTask(id) {
+            const response = await fetch(`${API_URL}/${id}`, {method: "DELETE"});
+
+            if (!response.ok) {
+                return showError(response);
+            }
+
+            await loadTasks();
+        }
+
+        async function showError(response) {
+            const error = await response.json();
+            await loadTasks();
+            showMessage(`Ошибка ${response.status}: ${error.detail}`);
+        }
+
+        function showMessage(text) {
+            document.getElementById("message").textContent = text;
+        }
+
+        loadTasks();
+    </script>
+</body>
+</html>

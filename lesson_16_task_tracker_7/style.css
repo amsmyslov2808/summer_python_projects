@@ -1,0 +1,117 @@
+/* Базовое оформление страницы и горизонтальное центрирование приложения. */
+body{
+    display: flex;
+    justify-content: center;
+
+    padding-top: 80px;
+
+    font-family: Arial, sans-serif;
+    background: #f3f4f6;
+}
+
+/* Основная карточка ограничивает ширину планировщика и отделяет его от фона. */
+.container{
+    width: 500px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+/* Заголовок выравнивается независимо от содержимого остальных блоков. */
+h1 {
+    margin-top: 0;
+    text-align: center;
+}
+
+/* Поле ввода и кнопка располагаются в одной строке с равномерным промежутком. */
+.task-form{
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+/* flex: 1 отдаёт полю всё место, оставшееся после размещения кнопки. */
+.task-input{
+    padding: 12px;
+
+    font-size: 16px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    flex: 1;
+}
+
+/* Основная кнопка визуально выделяет действие добавления задачи. */
+.add-task-button{
+    border: none;
+    border-radius: 8px;
+
+    padding: 12px 18px;
+
+    background: #2563eb;
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+/* Сбрасываем стандартные отступы и маркеры браузера у списка. */
+.task-list{
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+/* Каждая задача — отдельная flex-строка: checkbox, текст и кнопка удаления. */
+.task{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    background: #f9fafb;
+
+    border-radius: 8px;
+}
+
+/* Текст занимает свободное место и прижимает кнопку удаления к правому краю. */
+.task-title{
+     flex: 1;
+}
+
+/* Класс completed добавляется из JavaScript только выполненным задачам. */
+.completed .task-title {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Контрастный цвет подчёркивает необратимое для текущего списка действие. */
+.delete-button {
+    border: none;
+    background: #ef4444;
+    color: white;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+/* Итоговая статистика отделена от списка и расположена по центру карточки. */
+.stats{
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #555;
+}
